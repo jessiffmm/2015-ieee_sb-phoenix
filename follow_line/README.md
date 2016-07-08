@@ -63,3 +63,5 @@ insertar la lógica de control.
   depuración o con información relevante.
   Debe ser una imagen en formato RGB (Tip: np.dstack())
 
+###VIDEO
+https://www.youtube.com/watch?v=lOfOLB94_NU
