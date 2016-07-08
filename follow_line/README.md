@@ -66,8 +66,7 @@ insertar la lógica de control.
   Debe ser una imagen en formato RGB (Tip: np.dstack())
 
 
-## Video demostrativo
-http://jderobot.org/store/varribas/uploads/curso/videos/follow_line_1.mp4
+
 
 
 ## Atribuciones
