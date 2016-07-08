@@ -39,8 +39,6 @@ class MyAlgorithm():
         posicionx_left_arriba = []
         posicionx_left = []
         for i in range(0,ancho-1):
-            #if ((hsv_filterright[400,i-1]-hsv_filterright[400,i])!=0):
-            #        posicionx_right.append(i)
             if ((hsv_filterleft[370,i-1]-hsv_filterleft[370,i])!=0):
                     posicionx_left.append(i)
             if ((hsv_filterleft[300,i-1]-hsv_filterleft[300,i])!=0):
@@ -71,17 +69,14 @@ class MyAlgorithm():
             posicionx_left_arriba.append(0)
 
         
-        #xright=(posicionx_right[0]+posicionx_right[1])/2
+        
         xleft=(posicionx_left[0]+posicionx_left[1])/2
         xleft_arriba=(posicionx_left_arriba[0]+posicionx_left_arriba[1])/2
-        #x=(xright+xleft)/2
-		#Centro de la linea en 326
+        
+	#Centro de la linea en 326
         dif=xleft-xleft_arriba
         desviacionx=xleft-326
 
-
-        #cv2.rectangle(MASK3_right,(xright,400),(xright+10,410),(0,0,255),2)
-       # cv2.rectangle(MASK3_left,(xleft,370),(xleft+10,380),(0,0,255),2)
 
         # Add your code here
         #print "Runing"
@@ -93,35 +88,19 @@ class MyAlgorithm():
         #EXAMPLE OF HOW TO SEND INFORMATION TO THE ROBOT ACTUATORS
         if ((abs(desviacionx))<10):
             self.sensor.setV(6)
-           # self.sensor.setW(-(0.00004*desviacionx+0.000025*(desviacionx-self.desviacionx_anterior)))
         elif((abs(desviacionx))<85):
             self.sensor.setV(3.5)
-           # self.sensor.setW(-(0.00004*desviacionx+0.00003*(desviacionx-self.desviacionx_anterior)))
         else:
             self.sensor.setV(2)
-            #if(abs(desviacionx)<150):
-            #    self.sensor.setW(-(0.0005*desviacionx+0.00046*(desviacionx-self.desviacionx_anterior)))
-            #else:
-             #   self.sensor.setW(-(0.006*desviacionx+0.006*(desviacionx-self.desviacionx_anterior)))
-        #print "desviacion",(0.002*desviacionx+0.0002*(desviacionx-self.desviacionx_anterior))
+        
         self.desviacionx_anterior=desviacionx
-        #if(desviacionx>150 or desviacionx<(-150)):
-        #    self.sensor.setV(1.5)
-        #    self.sensor.setW(0.005*(-desviacionx))
-        #elif(desviacionx<70 and desviacionx>(-70)):
-        #    self.sensor.setV(3)
-        #    self.sensor.setW(0.0015*(-desviacionx))
-        #else:
-        #    self.sensor.setV(3)
-        #    self.sensor.setW(0.003*(-desviacionx))
+        
         #SHOW THE FILTERED IMAGE ON THE GUI
 
 
         self.setRightImageFiltered(MASK3_right)
         self.setLeftImageFiltered(MASK3_left)
-       # self.setLeftImageFiltered(out3)
-
-   #def center_moment(img)
+      
 
 
 
