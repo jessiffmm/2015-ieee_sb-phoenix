@@ -111,6 +111,17 @@ class MyAlgorithm():
         laser_data = self.sensor.getLaserData()
         laser = parse_laser_data(laser_data)
         self.carx,self.cary=absolutas2relativas(self.targetx,self.targety,rx,ry,rt)
+        atractor=pow(pow(self.carx,2)+pow(self.cary,2),0.5)
+        angulo_atractor=math.atan(self.carx/self.cary)
+        if(self.cary<0):
+            self.cary=-abs(9/math.sqrt(pow(angulo_atractor,2)+1))
+        else:
+            self.cary=abs(9/math.sqrt(pow(angulo_atractor,2)+1))
+        if(self.carx<0):
+            self.carx=-abs(self.cary*angulo_atractor)
+        else:
+            self.carx=abs(self.cary*angulo_atractor)
+
 
         laser_vectorized = []
         for d,a in laser:
@@ -137,31 +148,36 @@ class MyAlgorithm():
 
 
         self.obsx,self.obsy=vff_repulsor
-        repulsor=pow(pow(self.obsx,2)+pow(self.obsy,2),0.5)
-        if(repulsor>1.55):
-            self.obsx,self.obsy=vff_repulsor*4.5
 
+        repulsor=pow(pow(self.obsx,2)+pow(self.obsy,2),0.5)
+
+        if(repulsor<1.75 and repulsor>1.5):
+            self.obsx,self.obsy=vff_repulsor*2
+        if(repulsor>=1.75):
+            self.obsx,self.obsy=vff_repulsor*4.7
+
+        repulsor=pow(pow(self.obsx,2)+pow(self.obsy,2),0.5)
 
         self.avgx=self.carx+self.obsx
         self.avgy=self.cary+self.obsy
+        if(abs(repulsor-9)<1):
+            if(self.obsx<0):
+                self.avgx=-abs(self.avgx)
+            else:
+                self.avgx=abs(self.avgx)
+
         velocidad=pow(pow(self.avgx,2)+pow(self.avgy,2),0.5)
-        if(abs(self.obsx)>2):
-            if(abs(self.obsx)<abs(self.carx)):
-                if(self.obsx<0):
-                    self.avgx=-abs(self.avgx)
-                else:
-                    self.avgx=abs(self.avgx)
 
         if(self.obsy==(-self.cary) and self.obsx==(-self.carx)):
             self.avgx=self.obsx
-            self.avgy=self.cary
+
 
         if (velocidad<1):
             angulo=math.atan(abs(self.avgx/self.avgy))
         else:
             angulo=math.asin(abs(self.avgx/velocidad))
         if(self.avgy>0):
-            angulo=math.pi-angulo
+            angulo=(math.pi)-angulo
 
 
         if(velocidad>3 or (velocidad<1)):
@@ -170,10 +186,9 @@ class MyAlgorithm():
             self.sensor.setV(velocidad)
 
         if(self.avgx<0) :
-            self.sensor.setW(angulo*0.65)
+            self.sensor.setW(angulo)
         else:
-            self.sensor.setW(-angulo*0.65)
-
+            self.sensor.setW(-angulo)
     # Gui functions
     def setRightImageFiltered(self, image):
         self.lock.acquire()
